@@ -19,8 +19,9 @@ simple Router
 {
     parameters:
         string ipAddress = default("");
-        int queueCapacity = default(20);
-        int resources = default(5);
+        int queueCapacity = default(60);
+        int resources = default(60);
+        double processingTime = default(1);
         @display("i=block/routing");
     gates:
         input sourceConn;
