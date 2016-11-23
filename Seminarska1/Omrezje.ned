@@ -19,6 +19,8 @@ simple Router
 {
     parameters:
         string ipAddress = default("");
+        int queueCapacity = default(20);
+        int resources = default(5);
         @display("i=block/routing");
     gates:
         input sourceConn;
@@ -36,7 +38,7 @@ simple Source
 {
     parameters:
         @display("i=block/source");
-        double interArrivalTime = default(2);
+        double interArrivalTime = default(1);
     gates:
         output out;
 }

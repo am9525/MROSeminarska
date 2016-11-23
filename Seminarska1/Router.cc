@@ -24,14 +24,26 @@ private:
     opp_string ipAddress;
     vector<opp_string> addTable;
     vector<int> gateTable;
+    cQueue msgQueue;
     IP_Message* systemMsg;
+    int queueCapacity;
+    int processing;
+    int resources;
+    int lostPackets;
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage * msg) override;
 };
 Define_Module(Router);
 Router::Router(){
-
+    queueCapacity = 0;
+    lostPackets = 0;
+    resources = 0;
+    processing = 0;
+    addTable.clear();
+    gateTable.clear();
+    msgQueue.clear();
+    systemMsg = nullptr;
 }
 Router::~Router(){
 
@@ -51,6 +63,9 @@ void Router::initialize(){
     ipAddress = convert.str();
     //ipAddress += convert.str();
     EV << "router: " << getName() << " got IP: " << ipAddress << endl;
+    //intialize queue capacity
+    queueCapacity = par("queueCapacity");
+    resources = par("resources");
     //create routing table
     //broadcastaj svoj naslov vsem ostalim
     systemMsg = new IP_Message("startBroadcast");
@@ -72,85 +87,29 @@ if(msg == systemMsg){
 }*/
 void Router::handleMessage(cMessage * msg){
     IP_Message* packet = check_and_cast<IP_Message* >(msg);
-
-
-    if(strcmp("personalMessage", packet->getName()) == 0){
-        //packet arrived at destination
-        if(strcmp(packet->getIP_destination(), ipAddress.c_str()) == 0){
-            bubble("recieved packet, sending back acknowledgment");
-            EV << "packet arrived at destination from source: " << packet->getIP_source() << endl;
-            EV << packet->getIP_source() << " said " << packet->getContent();
-            EV << "sending it to sink, and sending back acknowledgement" << endl;
-            IP_Message * ack = new IP_Message("Acknowledgment");
-            ack->setIP_source(ipAddress.c_str());
-            ack->setIP_destination(packet->getIP_source());
-            ack->setContent("");
-            for(int i = 0; i < addTable.size(); i++){
-                //find the gate where to send
-                if(strcmp(addTable[i].c_str(), packet->getIP_source()) == 0){
-                    send(ack, "routerConn$o", gateTable[i]);
-                    break;
-                }
-            }
-            //send the recieved packet to the sink
-            send(packet, "sinkConn");
-            //delete(packet);
+    /*
+    EV << queueCapacity << endl;
+    if(queueCapacity == 0){
+        EV << "losing message queue is full" << endl;
+        lostPackets++;
+        delete(msg);
+    }
+    else{
+        //if queue is empty there is  not need to put it in the queue can go directly into processing
+        if(msgQueue.empty()){
+            packet = check_and_cast<IP_Message* >(msg);
         }
         else{
-            //forward message to specific port
-            bool found = false;
-            int i;
-            for(i = 0; i < addTable.size(); i++){
-                //if we find the address in the table
-                if(strcmp(addTable[i].c_str(), packet->getIP_destination()) == 0){
-                    found = true;
-                    break;
-                }
-            }
-            //if its found forward the message
-            if(found == true)
-                send(packet, "routerConn$o", gateTable[i]);
-            //else send the packet to sink
-            else{
-                EV << "Not valid destination: " << packet->getIP_destination() << endl;
-                bubble("don't know where to send this packet");
-                send(packet, "sinkConn");
-                //delete(packet);
-            }
+            EV << "pushing message on the queue" << endl;
+            //push the message on the queue
+            msgQueue.insert(msg);
+            queueCapacity--;
+            //take the first message from the queue
+            packet = check_and_cast<IP_Message* >(msgQueue.front());
+            msgQueue.pop();
         }
-
-    }
-    if(strcmp("Acknowledgment", packet->getName()) == 0){
-        //packet arrived ad destination
-        if(strcmp(packet->getIP_destination(), ipAddress.c_str()) == 0){
-            bubble("recieved acknowledgment");
-            EV << "recieved acknowledgment from: " << packet->getIP_source() << endl;
-            send(packet, "sinkConn");
-            //delete(msg);
-        }
-        else{
-            //forward message to specific port
-            bool found = false;
-            int i;
-            for(i= 0; i < addTable.size(); i++){
-                //if we find the address in the table
-                if(strcmp(addTable[i].c_str(), packet->getIP_destination()) == 0){
-                    found = true;
-                    break;
-                }
-            }
-            //if its found forward the message
-            if(found == true)
-                send(packet, "routerConn$o", gateTable[i]);
-            //else send the packet to sink
-            else{
-                EV << "Not valid destination: " << packet->getIP_destination() << endl;
-                bubble("don't know where to send this packet");
-                send(packet, "sinkConn");
-                delete(packet);
-            }
-        }
-    }
+    }*/
+    //--------------------------------------------System messages that have priority--------------------------------------
     //send initial message, this is sent from source
     if(strcmp("job", packet->getName()) == 0){
         //print routing table
@@ -177,7 +136,7 @@ void Router::handleMessage(cMessage * msg){
 
 
     //every router sends his address to neighbouring routers
-    if(strcmp(packet->getName(),"startBroadcast") == 0){
+    else if(strcmp(packet->getName(),"startBroadcast") == 0){
         EV << getName() << " is starting broadcast" << endl;
         bubble("Broadcasting my own address");
         //iterate through all the out gates and send your own ip address
@@ -194,7 +153,7 @@ void Router::handleMessage(cMessage * msg){
         delete(packet);
     }
     //if we get the broadcasting message
-    if(strcmp(packet->getName(),"broadcast") == 0){
+    else if(strcmp(packet->getName(),"broadcast") == 0){
         //check if we already have this router in our table
         bool vTabeli = false;
         for(int i = 0; i < addTable.size(); i++){
@@ -228,8 +187,106 @@ void Router::handleMessage(cMessage * msg){
             delete(msg);
             delete(packet);
         }
+    }else{
+        if(queueCapacity == 0){
+            EV << "losing message queue is full" << endl;
+            lostPackets++;
+            delete(msg);
+        }
+        else{
+            msgQueue.insert(msg);
+            queueCapacity--;
+        }
     }
+    //-----------------------------------------------------------------------------------------------------------
+    //if we have enough resources and the previous message has finished processing
+    if(processing < resources && strcmp("finishedProcessing", packet->getName()) == 0){
+        //we are processing one more message
+        processing++;
 
+        if(strcmp("personalMessage", packet->getName()) == 0){
+            //packet arrived at destination
+            if(strcmp(packet->getIP_destination(), ipAddress.c_str()) == 0){
+                bubble("recieved packet, sending back acknowledgment");
+                EV << "packet arrived at destination from source: " << packet->getIP_source() << endl;
+                EV << packet->getIP_source() << " said " << packet->getContent();
+                EV << "sending it to sink, and sending back acknowledgement" << endl;
+                IP_Message * ack = new IP_Message("Acknowledgment");
+                ack->setIP_source(ipAddress.c_str());
+                ack->setIP_destination(packet->getIP_source());
+                ack->setContent("");
+                for(int i = 0; i < addTable.size(); i++){
+                    //find the gate where to send
+                    if(strcmp(addTable[i].c_str(), packet->getIP_source()) == 0){
+                        send(ack, "routerConn$o", gateTable[i]);
+                        break;
+                    }
+                }
+                //send the recieved packet to the sink
+                send(packet, "sinkConn");
+                //delete(packet);
+            }
+            else{
+                //forward message to specific port
+                bool found = false;
+                int i;
+                for(i = 0; i < addTable.size(); i++){
+                    //if we find the address in the table
+                    if(strcmp(addTable[i].c_str(), packet->getIP_destination()) == 0){
+                        found = true;
+                        break;
+                    }
+                }
+                //if its found forward the message
+                if(found == true)
+                    send(packet, "routerConn$o", gateTable[i]);
+                //else send the packet to sink
+                else{
+                    EV << "Not valid destination: " << packet->getIP_destination() << endl;
+                    bubble("don't know where to send this packet");
+                    send(packet, "sinkConn");
+                    //delete(packet);
+                }
+            }
+
+        }
+        if(strcmp("Acknowledgment", packet->getName()) == 0){
+            //packet arrived ad destination
+            if(strcmp(packet->getIP_destination(), ipAddress.c_str()) == 0){
+                bubble("recieved acknowledgment");
+                EV << "recieved acknowledgment from: " << packet->getIP_source() << endl;
+                send(packet, "sinkConn");
+                //delete(msg);
+            }
+            else{
+                //forward message to specific port
+                bool found = false;
+                int i;
+                for(i= 0; i < addTable.size(); i++){
+                    //if we find the address in the table
+                    if(strcmp(addTable[i].c_str(), packet->getIP_destination()) == 0){
+                        found = true;
+                        break;
+                    }
+                }
+                //if its found forward the message
+                if(found == true)
+                    send(packet, "routerConn$o", gateTable[i]);
+                //else send the packet to sink
+                else{
+                    EV << "Not valid destination: " << packet->getIP_destination() << endl;
+                    bubble("don't know where to send this packet");
+                    send(packet, "sinkConn");
+                    delete(packet);
+                }
+            }
+        }
+        systemMsg = new IP_Message("finishedProcessing");
+        systemMsg->setIP_source("");
+        systemMsg->setIP_destination("");
+        systemMsg->setContent("");
+        //vsak router doda svoje sosede
+        scheduleAt(simTime()+5.0,systemMsg);
+    }
 }
-
 
