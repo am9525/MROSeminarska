@@ -1,0 +1,67 @@
+file 124063 1480004215                                          
+version 2
+run conf1-0-20161124-17:14:17-1968
+attr configname conf1
+attr datetime 20161124-17:14:17
+attr experiment conf1
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network Omrezje
+attr processid 1968
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param Omrezje.source*.interArrivalTime 10
+
+vector 0  Omrezje.router  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 1  Omrezje.router  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 2  Omrezje.router1  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 3  Omrezje.router1  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 4  Omrezje.router2  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 5  Omrezje.router2  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 6  Omrezje.router3  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 7  Omrezje.router3  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 8  Omrezje.router4  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 9  Omrezje.router4  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 10  Omrezje.router5  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 11  Omrezje.router5  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+0	1851 9 0 0 0 0 1 0 0 0 0
+1	1860 21964 0 12300 0 1797 1421 0 60 84120 4983906
+2	23824 9 0 0 0 0 1 0 0 0 0
+3	23833 35244 0 12303 0 1798 2285 0 60 133554 7812034
+4	59077 9 0 0 0 0 1 0 0 0 0
+5	59086 21343 0 12304 0 1798 1383 0 60 81967 4862091
+6	80429 9 0 0 0 0 1 0 0 0 0
+7	80438 12203 0 12305 0 1798 787 0 60 46691 2773869
+8	92641 9 0 0 0 0 1 0 0 0 0
+9	92650 17737 0 12309 0 1799 1149 0 60 68006 4029178
+10	110387 10 0 0 0 0 1 0 0 0 0
+11	110397 13666 0 12288 0 1795 827 0 60 49037 2911477

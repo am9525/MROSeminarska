@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="*.vec"/>
+    <inputs name="*.sca"/>
+  </inputs>
+  <datasets>
+    <datasets name="conf2">
+      <items xsi:type="scave:Add" filterPattern="">
+        <excepts filterPattern="module(.)"/>
+      </items>
+      <items xsi:type="scave:ComputeScalar" scalarName="util:timeavg" valueExpr="'util:timeavg' * 100" moduleExpr="" groupByExpr=""/>
+      <items xsi:type="scave:BarChart" name="conf2-util">
+        <properties name="Graph.Title" value="Delno izgubna konfiguracija (procesiranje)"/>
+        <properties name="Y.Axis.Title" value="Povprecna zasedenost procesov (%)"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Below"/>
+        <barFields>name</barFields>
+        <barFields>measurement</barFields>
+      </items>
+      <items xsi:type="scave:Add" filterPattern="" type="VECTOR">
+        <excepts filterPattern="module(.)"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-0-drop" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(droppedPackage:vector) AND file(/Seminarska1/results/conf2/0.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Izguba paketov (i=10, p=1)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo paketov"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-0-queue" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(queueLength:vector) AND file(/Seminarska1/results/conf2/0.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Velikost vrste (i=10, p=1)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo prostih mest vrste"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-1-drop" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(droppedPackage:vector) AND file(/Seminarska1/results/conf2/1.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Izguba paketov (i=10, p=2)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo paketov"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-1-queue" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(queueLength:vector) AND file(/Seminarska1/results/conf2/1.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Velikost vrste (i=10, p=2)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo prostih mest vrste"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-2-drop" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(droppedPackage:vector) AND file(/Seminarska1/results/conf2/2.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Izguba paketov (i=15, p=1)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo paketov"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-2-queue" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(queueLength:vector) AND file(/Seminarska1/results/conf2/2.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Velikost vrste (i=15, p=1)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo prostih mest vrste"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-3-drop" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(droppedPackage:vector) AND file(/Seminarska1/results/conf2/3.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Izguba paketov (i=15, p=2)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo paketov"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf2-3-queue" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="name(queueLength:vector) AND file(/Seminarska1/results/conf2/3.vec) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Velikost vrste (i=15, p=2)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo prostih mest vrste"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.2 //@datasets/@datasets.0/@items.4 //@datasets/@datasets.0/@items.5 //@datasets/@datasets.0/@items.6 //@datasets/@datasets.0/@items.7 //@datasets/@datasets.0/@items.9 //@datasets/@datasets.0/@items.8 //@datasets/@datasets.0/@items.10 //@datasets/@datasets.0/@items.11"/>
+  </chartSheets>
+</scave:Analysis>

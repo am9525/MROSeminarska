@@ -15,7 +15,7 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I.
+INCLUDE_PATH = -I. -Iresults -Iresults/conf1 -Iresults/conf2 -Iresults/conf3
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -29,7 +29,7 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-OBJS = $O/Router.o $O/Sink.o $O/Source.o $O/IP_Message_m.o
+OBJS = $O/Router.o $O/Source.o $O/Sink.o $O/IP_Message_m.o
 
 # Message files
 MSGFILES = \
@@ -117,13 +117,17 @@ clean:
 	$(Q)-rm -rf $O
 	$(Q)-rm -f Seminarska1 Seminarska1.exe libSeminarska1.so libSeminarska1.a libSeminarska1.dll libSeminarska1.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h ./*_sm.cc ./*_sm.h
+	$(Q)-rm -f results/*_m.cc results/*_m.h results/*_sm.cc results/*_sm.h
+	$(Q)-rm -f results/conf1/*_m.cc results/conf1/*_m.h results/conf1/*_sm.cc results/conf1/*_sm.h
+	$(Q)-rm -f results/conf2/*_m.cc results/conf2/*_m.h results/conf2/*_sm.cc results/conf2/*_sm.h
+	$(Q)-rm -f results/conf3/*_m.cc results/conf3/*_m.h results/conf3/*_sm.cc results/conf3/*_sm.h
 
 cleanall: clean
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc results/*.cc results/conf1/*.cc results/conf2/*.cc results/conf3/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/IP_Message_m.o: IP_Message_m.cc \

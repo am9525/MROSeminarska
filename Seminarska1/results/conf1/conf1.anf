@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/Seminarska1/results/conf1/0.sca"/>
+    <inputs name="/Seminarska1/results/conf1/0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="conf1">
+      <items xsi:type="scave:Add" filterPattern="">
+        <excepts filterPattern="name(droppedPackage:count) "/>
+      </items>
+      <items xsi:type="scave:ComputeScalar" scalarName="util:timeavg" valueExpr="'util:timeavg' * 100" moduleExpr="" groupByExpr=""/>
+      <items xsi:type="scave:BarChart" name="conf1-proc">
+        <properties name="Graph.Title" value="Brez izgubna konfiguracija (procesiranje)"/>
+        <properties name="Y.Axis.Title" value="Povprecna zasedenost procesov (%)"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Border" value="true"/>
+        <properties name="Legend.Position" value="Below"/>
+        <barFields>name</barFields>
+        <barFields>measurement</barFields>
+      </items>
+      <items xsi:type="scave:Add" filterPattern="" type="VECTOR">
+        <excepts filterPattern="droppedPackage:vector"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf1-queue" lineNameFormat="">
+        <properties name="Graph.Title" value="Brezizgubna konfiguracija (vrsta)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo prostih mest v vrsti"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="East"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.2 //@datasets/@datasets.0/@items.4"/>
+  </chartSheets>
+</scave:Analysis>

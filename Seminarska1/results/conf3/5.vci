@@ -1,0 +1,72 @@
+file 231847 1480034132                                          
+version 2
+run conf3-5-20161125-01:35:31-2484
+attr configname conf3
+attr datetime 20161125-01:35:31
+attr experiment conf3
+attr i 5
+attr inifile omnetpp.ini
+attr iterationvars "$i=5, $p=5, $q=6"
+attr iterationvars2 "$i=5, $p=5, $q=6, $repetition=0"
+attr measurement "$i=5, $p=5, $q=6"
+attr network Omrezje
+attr p 5
+attr processid 2484
+attr q 6
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 5
+attr seedset 5
+param Omrezje.router*.processingTime "truncnormal(${p = 5..7 step 2}, ${p} * 0.5)"
+param Omrezje.router*.queueCapacity "truncnormal(${q = 1..6 step 5}, 0)"
+param Omrezje.source*.interArrivalTime "truncnormal(${i = 3..5 step 2}, ${i} * 0.5)"
+
+vector 0  Omrezje.router  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 1  Omrezje.router  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 2  Omrezje.router1  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 3  Omrezje.router1  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 4  Omrezje.router2  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 5  Omrezje.router2  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 6  Omrezje.router3  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 7  Omrezje.router3  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 8  Omrezje.router4  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 9  Omrezje.router4  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 10  Omrezje.router5  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 11  Omrezje.router5  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+0	2134 6947 0 13763 0 1779.269498663254 239 0 238 28441 4522119
+1	9081 30912 0 13894 0 1798.886724779979 1136 0 6 2136 8428
+2	39993 5679 0 13462 0 1736.726482112187 196 0 195 19110 2490670
+3	45672 60689 0 13902 0 1799.96019246362 2229 0 6 4770 16310
+4	106361 933 0 13890 0 1798.32816906305 34 0 33 561 12529
+5	107294 42747 0 13901 0 1799.96019246362 1570 0 6 4847 19769
+6	150041 1595 0 13789 0 1783.346664113031 56 0 55 1540 56980
+7	151636 19384 0 13895 0 1798.886724779979 715 0 6 2003 8657
+8	171020 6543 0 13758 0 1778.709768738359 225 0 224 25200 3771600
+9	177563 28152 0 13898 0 1799.920639904608 1039 0 6 2185 8887
+10	205715 1727 0 13843 0 1791.5163680896 59 0 58 1711 66729
+11	207442 24405 0 13896 0 1799.475966796994 868 0 6 2358 9678

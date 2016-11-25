@@ -1,0 +1,41 @@
+version 2
+run conf2-2-20161125-01:35:59-2288
+attr configname conf2
+attr datetime 20161125-01:35:59
+attr experiment conf2
+attr i 15
+attr inifile omnetpp.ini
+attr iterationvars "$i=15, $p=1"
+attr iterationvars2 "$i=15, $p=1, $repetition=0"
+attr measurement "$i=15, $p=1"
+attr network Omrezje
+attr p 1
+attr processid 2288
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 2
+attr seedset 2
+param Omrezje.router*.processingTime "truncnormal(${p = 1..2 step 1}, ${p} * 0.5)"
+param Omrezje.source*.interArrivalTime "truncnormal(${i = 10..15 step 5}, ${i} * 0.5)"
+
+scalar . 	i 	15
+scalar . 	p 	1
+scalar Omrezje.router 	util:timeavg 	0.85785168822979
+attr interpolationmode  none
+attr title  "utilization, timeavg"
+scalar Omrezje.router1 	util:timeavg 	0.95491872086835
+attr interpolationmode  none
+attr title  "utilization, timeavg"
+scalar Omrezje.router2 	util:timeavg 	0.829103730306
+attr interpolationmode  none
+attr title  "utilization, timeavg"
+scalar Omrezje.router3 	util:timeavg 	0.62245475284779
+attr interpolationmode  none
+attr title  "utilization, timeavg"
+scalar Omrezje.router4 	util:timeavg 	0.8213833917347
+attr interpolationmode  none
+attr title  "utilization, timeavg"
+scalar Omrezje.router5 	util:timeavg 	0.56837518672657
+attr interpolationmode  none
+attr title  "utilization, timeavg"

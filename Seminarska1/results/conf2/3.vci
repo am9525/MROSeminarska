@@ -1,0 +1,70 @@
+file 327678 1480034162                                          
+version 2
+run conf2-3-20161125-01:36:01-3004
+attr configname conf2
+attr datetime 20161125-01:36:01
+attr experiment conf2
+attr i 15
+attr inifile omnetpp.ini
+attr iterationvars "$i=15, $p=2"
+attr iterationvars2 "$i=15, $p=2, $repetition=0"
+attr measurement "$i=15, $p=2"
+attr network Omrezje
+attr p 2
+attr processid 3004
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 3
+attr seedset 3
+param Omrezje.router*.processingTime "truncnormal(${p = 1..2 step 1}, ${p} * 0.5)"
+param Omrezje.source*.interArrivalTime "truncnormal(${i = 10..15 step 5}, ${i} * 0.5)"
+
+vector 0  Omrezje.router  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 1  Omrezje.router  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 2  Omrezje.router1  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 3  Omrezje.router1  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 4  Omrezje.router2  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 5  Omrezje.router2  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 6  Omrezje.router3  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 7  Omrezje.router3  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 8  Omrezje.router4  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 9  Omrezje.router4  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+vector 10  Omrezje.router5  droppedPackage:vector  ETV
+attr interpolationmode  none
+attr title  "drop package, vector"
+vector 11  Omrezje.router5  queueLength:vector  ETV
+attr interpolationmode  none
+attr title  "queue length, vector"
+0	2038 9 0 0 0 0 1 0 0 0 0
+1	2047 51449 0 17801 0 3598.594143128853 1786 0 60 104839 6159233
+2	53496 269 0 17737 0 3584.179221879392 10 0 9 45 285
+3	53765 83529 0 17800 0 3598.594143128853 2930 0 60 71867 2997781
+4	137294 9 0 0 0 0 1 0 0 0 0
+5	137303 61004 0 17795 0 3596.910220609327 2113 0 60 125316 7436500
+6	198307 9 0 0 0 0 1 0 0 0 0
+7	198316 31791 0 17782 0 3593.635606036065 1097 0 60 65212 3880388
+8	230107 9 0 0 0 0 1 0 0 0 0
+9	230116 51696 0 17798 0 3597.700607364398 1791 0 60 95493 5141191
+10	281812 10 0 0 0 0 1 0 0 0 0
+11	281822 45856 0 17804 0 3598.720237186109 1536 0 60 90614 5350096

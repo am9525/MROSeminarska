@@ -27,10 +27,15 @@ private:
     cQueue msgQueue;
     IP_Message* systemMsg;
     int queueCapacity;
-    int processing;
-    int resources;
+    double processing;
+    double resources;
     int lostPackets;
     bool firstMsg;
+
+    // Signals for gathering statistics.
+    simsignal_t droppedPackageSignal;
+    simsignal_t queueLengthSignal;
+    simsignal_t utilSignal;
 protected:
     virtual void initialize() override;
     virtual void handleMessage(cMessage * msg) override;
@@ -40,8 +45,8 @@ Define_Module(Router);
 Router::Router(){
     queueCapacity = 0;
     lostPackets = 0;
-    resources = 0;
-    processing = 0;
+    resources = 0.0;
+    processing = 0.0;
     addTable.clear();
     gateTable.clear();
     msgQueue.clear();
@@ -78,6 +83,16 @@ void Router::initialize(){
     //vsak router doda svoje sosede
     scheduleAt(simTime()+1.0,systemMsg);
     //check_and_cast<myPacket *>(msg)
+
+    // Register signals.
+    droppedPackageSignal = registerSignal("droppedPackage");
+    queueLengthSignal = registerSignal("queueLength");
+    utilSignal = registerSignal("util");
+
+    // Initialize siganls.
+    emit(droppedPackageSignal, 0);
+    emit(queueLengthSignal, 0);
+    emit(utilSignal, 0.0);
 }
 /*
 if(msg == systemMsg){
@@ -170,6 +185,10 @@ void Router::handleMessage(cMessage * msg){
         msgQueue.pop();
         queueCapacity++;
         processing--;
+
+        emit(queueLengthSignal, queueCapacity);
+        emit(utilSignal, processing/resources);
+
         EV << "processing finished" << endl;
         bubble("processing finished");
         //if we get a person message
@@ -256,11 +275,13 @@ void Router::handleMessage(cMessage * msg){
         if(queueCapacity == 0){
             EV << "losing message queue is full" << endl;
             lostPackets++;
+            emit(droppedPackageSignal, lostPackets);
             delete(msg);
         }
         else{
             msgQueue.insert(msg);
             queueCapacity--;
+            emit(queueLengthSignal, queueCapacity);
         }
     }
     //-----------------------------------------------------------------------------------------------------------
@@ -276,7 +297,7 @@ void Router::handleMessage(cMessage * msg){
         bubble("processing message");
         scheduleAt(simTime()+par("processingTime"),systemMsg);
     }
-    updateDisplay(queueCapacity, resources, processing,lostPackets);
+    updateDisplay(queueCapacity, processing, resources,lostPackets);
 }
 void Router::updateDisplay(int i, int p, int r, int l)
 {

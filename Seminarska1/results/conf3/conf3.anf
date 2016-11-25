@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="*.vec"/>
+    <inputs name="*.sca"/>
+  </inputs>
+  <datasets>
+    <datasets name="conf3">
+      <items xsi:type="scave:Add" filterPattern="">
+        <excepts filterPattern="module(.) "/>
+      </items>
+      <items xsi:type="scave:ComputeScalar" scalarName="util:timeavg" valueExpr="'util:timeavg' * 100" moduleExpr="" groupByExpr=""/>
+      <items xsi:type="scave:BarChart" name="conf3-util">
+        <properties name="Graph.Title" value="Izgubna konfiguracija (procesiranje)"/>
+        <properties name="Y.Axis.Title" value="Povprecna zasedenost procesov (%)"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Below"/>
+      </items>
+      <items xsi:type="scave:Add" filterPattern="" type="VECTOR">
+        <excepts filterPattern="module(.) "/>
+      </items>
+      <items xsi:type="scave:Apply" operation="aggregator">
+        <filters xsi:type="scave:Select" filterPattern="name(droppedPackage:vector)" type="VECTOR"/>
+        <params name="function" value="average"/>
+        <groupBy>module</groupBy>
+      </items>
+      <items xsi:type="scave:Apply" operation="mean">
+        <filters xsi:type="scave:Select" filterPattern="title(&quot;drop package, vector&quot;)  " type="VECTOR"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="conf3-drop" lineNameFormat="">
+        <filters xsi:type="scave:Select" filterPattern="title(&quot;drop package, vector&quot;) " type="VECTOR"/>
+        <properties name="Graph.Title" value="Izgubna konfiguracija (paketi)"/>
+        <properties name="X.Axis.Title" value="Cas (s)"/>
+        <properties name="Y.Axis.Title" value="Stevilo izgubljenih paketov"/>
+        <properties name="Axes.Grid" value="All"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Position" value="Right"/>
+        <properties name="Legend.Anchoring" value="West"/>
+        <properties name="Line.Color/Omrezje.router4" value="#FF8000"/>
+        <properties name="Line.Color/Omrezje.router3" value="#FF80FF"/>
+        <properties name="Line.Color/Omrezje.router5" value="#800040"/>
+        <properties name="Symbols.Size" value="1"/>
+        <properties name="Line.Type" value="Linear"/>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.2 //@datasets/@datasets.0/@items.6"/>
+  </chartSheets>
+</scave:Analysis>

@@ -20,8 +20,17 @@ simple Router
     parameters:
         string ipAddress = default("");
         int queueCapacity = default(60);
-        int resources = default(60);
-        double processingTime = default(1);
+        double resources = default(60.0);
+        double processingTime = default(1.0);
+        
+        @signal[droppedPackage](type=long);
+        @signal[queueLength](type=long);
+        @signal[util](type=double);
+        
+        @statistic[droppedPackage](title="drop package"; record=vector; interpolationmode=none);
+        @statistic[queueLength](title="queue length"; record=vector; interpolationmode=none);
+        @statistic[util](title="utilization"; record=timeavg; interpolationmode=none);
+        
         @display("i=block/routing");
     gates:
         input sourceConn;
